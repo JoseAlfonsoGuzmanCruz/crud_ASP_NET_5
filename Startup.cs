@@ -27,9 +27,10 @@ namespace crud_ASP_NET_5
         {
             //asociar la cadena de conexion al contexto
             services.AddControllersWithViews();
+            
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer
             (Configuration.GetConnectionString("sql")));
-            services.AddRazorPages();
+            //services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +56,11 @@ namespace crud_ASP_NET_5
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                
+                endpoints.MapControllerRoute(
+                    name: "Cursos",
+                    pattern:"{controller=Cursos}/{action=Index}/{id?}");
+                //endpoints.MapRazorPages();
             });
         }
     }

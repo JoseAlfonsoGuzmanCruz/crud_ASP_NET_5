@@ -1,0 +1,63 @@
+﻿@*el modelo no es visible para la vista si no se importa en el archivo _ViewImports.cshtml*@
+@*para esta vista se usara el modelo para usar las: DataAnnotations*@
+@model IEnumerable<Curso>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Cursos disponibles</h2>
+        </div>
+        <div class="col-sm-6">
+            @*boton crea usa el metodo Crear del controlador*@ 
+            <a class="btn btn-dark d-flex" asp-action="Crear" asp-controller="Cursos">Agregar curso</a>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.Count() == 0)
+        {
+            //en caso de que la base de datos no tengha registro
+            <div>
+                <h1 class="text-danger">No hay cursos disponibles</h1>
+            </div>
+        }
+        else
+        {
+            //tabla que se visualizara en la vista Index //si existen registros en la base de datos
+            <table class="table table-dark">
+                @*primeras columnas informacion estatica*@
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(X => X.Id)</th>
+                        <th>@Html.DisplayNameFor(X => X.nombreCurso)</th>
+                        <th>@Html.DisplayNameFor(X => X.Descripcion)</th>
+                        <th>@Html.DisplayNameFor(X => X.Precio)</th>
+                        <th>Editar/Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*cuerpo de la tabla, informacion dinamica (todos los registros de la tabla)*@
+                    @foreach (var curso in Model)
+                    {
+                        <tr>
+                            <td>@curso.Id</td>
+                            <td>@curso.nombreCurso</td>
+                            <td>@curso.Descripcion</td>
+                            <td>@curso.Precio</td>
+                            <td>
+                                @*botones de editar y borrar, utilizan sus respentivos metodos del controlador*@
+                                <a class="btn btn-outline-success" asp-action="Editar" asp-controller="Cursos"
+                                   asp-route-id="@curso.Id">Editar</a>
+
+                                <a class="btn btn-outline-danger" asp-action="Borrar" asp-controller="Cursos"
+                                   asp-route-id="@curso.Id">Borrar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
